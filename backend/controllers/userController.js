@@ -92,7 +92,6 @@ exports.deleteUser = async (req, res) => {
 exports.addToWishlist = async (req, res) => {
   try {
     const user = await User.findById (req.params.userid);
-    console.log("hellow", user, req.body.bookId)
     if (!user) return res.status (404).json ({error: 'User not found'});
     user.wishlist.push (req.body.bookId);
     await user.save ();
@@ -107,6 +106,7 @@ exports.addToWishlist = async (req, res) => {
 exports.removeFromWishlist = async (req, res) => {
   try {
     const user = await User.findById (req.params.userid);
+    console.log()
     if (!user) return res.status (404).json ({error: 'User not found'});
     user.wishlist.pull (req.body.bookId);
     await user.save ();

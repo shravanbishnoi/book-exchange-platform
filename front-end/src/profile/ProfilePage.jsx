@@ -6,9 +6,11 @@ import { Button } from "react-bootstrap";
 import EditProfileModal from "./EditProfileModal";
 import { BASE_SERVER_URL, API } from "../Constants";
 import { useUser } from "../context/user";
+import showSwalAlert from "../utilities/AlertComponents";
 
 const ProfilePage = () => {
   const { current: user } = useUser();
+  const [triggerUpdate, setTriggerUpdate] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [lendBooks, setLendBooks] = useState([]);
   const [wishlist, setWishlist] = useState([]);
@@ -61,7 +63,7 @@ const ProfilePage = () => {
     if (user?.uid) {
       fetchData();
     }
-  }, [user, url]);
+  }, [user, triggerUpdate]);
 
   const [userProfile, setUserProfile] = useState(profile);
 
@@ -70,6 +72,43 @@ const ProfilePage = () => {
     setUserProfile (updatedProfile); // Update the user's profile
   };
 
+  const deleteFromWishlist = async (bookId) => {
+      try {
+        const response = await fetch(
+          `${BASE_SERVER_URL}${API}users/${user?.uid}/wishlist/`,
+          {
+            method: "delete",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ bookId }),
+          }
+        );
+  
+        if (!response.ok) {
+          throw new Error("Failed to add book to wishlist");
+        }
+  
+        const updatedUser = await response.json();
+        if (updatedUser){
+          setTriggerUpdate(!triggerUpdate)
+          showSwalAlert({
+            icon: "success",
+            title: "Book Deleted from Wishlist",
+            text: "Move to Dashboard to add more",
+          });
+        }
+
+  
+        console.log("Wishlist updated:", updatedUser.wishlist);
+      } catch (error) {
+        showSwalAlert({
+          icon: "error",
+          title: error.code,
+          text: error.message,
+        });
+      }
+  }
   return (
     <div>
       <Navbar />
@@ -128,7 +167,7 @@ const ProfilePage = () => {
                         <td>{wish.author}</td>
                         <td>{wish.genre}</td>
                         <td>
-                          <button class="btn btn-danger btn-sm rounded-pill shadow">
+                          <button class="btn btn-danger btn-sm rounded-pill shadow" onClick={() => deleteFromWishlist(wish._id)}>
                             <i class="bi bi-trash"></i> Delete
                           </button>
                         </td>
