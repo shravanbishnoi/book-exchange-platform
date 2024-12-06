@@ -3,6 +3,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { useUser } from "../context/user";
 import { BASE_SERVER_URL, API } from "../Constants";
+import showSwalAlert from "../utilities/AlertComponents";
 
 const EditProfileModal = ({ show, handleClose, userProfile, onSave }) => {
   const [formData, setFormData] = useState(userProfile || {});
@@ -36,10 +37,18 @@ const EditProfileModal = ({ show, handleClose, userProfile, onSave }) => {
     try {
       const response = await axios.put(`${BASE_SERVER_URL}${API}users/${userid}`, formData);
       onSave(response.data); // Update parent component with the new data
+      showSwalAlert({
+        icon: "success",
+        title: "Details added successfully",
+        text: "",
+      });
       handleClose(); // Close the modal
     } catch (error) {
-      console.error("Error updating user profile:", error.response?.data);
-      alert("Failed to update profile. Please try again.");
+      showSwalAlert({
+        icon: "error",
+        title: error.code,
+        text: error.message,
+      });
     }
   };
 
