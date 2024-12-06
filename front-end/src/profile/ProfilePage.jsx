@@ -1,31 +1,30 @@
-import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import user1 from "../assets/user1.jpeg";
-import Navbar from "../dashboard/Navbar";
-import { useState } from "react";
-import { Button } from "react-bootstrap";
-import EditProfileModal from "./EditProfileModal";
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import user1 from '../assets/user1.jpeg';
+import Navbar from '../dashboard/Navbar';
+import {useState} from 'react';
+import {Button} from 'react-bootstrap';
+import EditProfileModal from './EditProfileModal';
 
 const ProfilePage = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState (false);
 
   const initialProfile = {
-    name: "John Doe",
-    username: "johndoe123",
-    email: "johndoe@example.com",
-    phone: "123-456-7890",
-    location: "New York, USA",
-    role: "Borrower",
+    name: 'John Doe',
+    username: 'johndoe123',
+    email: 'johndoe@example.com',
+    phone: '123-456-7890',
+    location: 'New York, USA',
+    role: 'Borrower',
     rating: 4.0,
   };
 
-  const [userProfile, setUserProfile] = useState(initialProfile);
+  const [userProfile, setUserProfile] = useState (initialProfile);
 
   // Handle Save
-  const handleSave = (updatedProfile) => {
-    setUserProfile(updatedProfile); // Update the user's profile
+  const handleSave = updatedProfile => {
+    setUserProfile (updatedProfile); // Update the user's profile
   };
-
 
   return (
     <div>
@@ -37,7 +36,7 @@ const ProfilePage = () => {
               src={user1}
               alt="Profile"
               className="rounded-circle mb-3"
-              style={{ width: "150px", height: "150px", objectFit: "cover" }}
+              style={{width: '150px', height: '150px', objectFit: 'cover'}}
             />
             <h4>John Doe</h4>
             <p>@johndoe123</p>
@@ -48,14 +47,14 @@ const ProfilePage = () => {
               <span>Rating:</span>
               <span className="text-warning">★★★★☆</span> (4.0)
             </div>
-            <Button onClick={() => setShowModal(true)} variant="primary">
+            <Button onClick={() => setShowModal (true)} variant="primary">
               Edit Profile
             </Button>
 
             {/* Modal */}
             <EditProfileModal
               show={showModal}
-              handleClose={() => setShowModal(false)}
+              handleClose={() => setShowModal (false)}
               userProfile={userProfile}
               onSave={handleSave}
             />

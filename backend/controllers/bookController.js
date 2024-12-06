@@ -1,15 +1,26 @@
-// Updated controllers/bookController.js
 const Book = require ('../models/Book');
-// const multer = require ('multer');
-
-// const upload = multer ();
+const User = require ('../models/User');
 
 // Create a new book
 exports.createBook = async (req, res) => {
   try {
+    const {userid} = req.body.owner_id;
+    console.log (userid);
+
+    // Create a new book in the books collection
     const book = new Book (req.body);
-    await book.save ();
-    res.status (201).json (book);
+    const savedBook = await book.save ();
+
+    // Add the book ID to the user's lend_books array
+    const user = await User.findById (userid);
+    if (!user) return res.status (404).json ({error: 'User not found'});
+
+    user.lend_books.push (savedBook._id);
+    console.log (savedBook._id);
+    console.log (user);
+    await user.save ();
+
+    res.status (201).json ({user, book: savedBook});
   } catch (err) {
     res.status (400).json ({error: err.message});
   }

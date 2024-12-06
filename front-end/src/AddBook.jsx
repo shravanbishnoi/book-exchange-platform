@@ -11,7 +11,7 @@ const AddBookModal = () => {
     authorName: "",
     genre: "",
     condition: "",
-    image_url: "https://via.placeholder.com/150",
+    image_url: "",
     availability: true,
     owner_id: user?.uid
   });
@@ -39,7 +39,6 @@ const AddBookModal = () => {
             image_url: formData.image_url,
             availability: true,
             owner_id: formData.owner_id
-
           }
       const response = await fetch(`${BASE_SERVER_URL}${API}books/`, {
         method: "POST",
