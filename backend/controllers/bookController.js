@@ -1,9 +1,5 @@
-// Updated controllers/bookController.js
-const Book = require("../models/Book");
-const User = require("../models/User");
-// const multer = require ('multer');
-
-// const upload = multer ();
+const Book = require ('../models/Book');
+const User = require ('../models/User');
 
 // Create a new book
 exports.createBook = async (req, res) => {

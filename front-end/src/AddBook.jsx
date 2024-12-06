@@ -39,7 +39,6 @@ const AddBookModal = () => {
             image_url: formData.image_url,
             availability: true,
             owner_id: formData.owner_id
-
           }
       const response = await fetch(`${BASE_SERVER_URL}${API}books/`, {
         method: "POST",

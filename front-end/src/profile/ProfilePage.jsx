@@ -66,8 +66,8 @@ const ProfilePage = () => {
   const [userProfile, setUserProfile] = useState(profile);
 
   // Handle Save
-  const handleSave = (updatedProfile) => {
-    setUserProfile(updatedProfile); // Update the user's profile
+  const handleSave = updatedProfile => {
+    setUserProfile (updatedProfile); // Update the user's profile
   };
 
   return (
@@ -80,7 +80,7 @@ const ProfilePage = () => {
               src={`https://ui-avatars.com/api/?name=${profile.name}&size=150`}
               alt="Profile"
               className="rounded-circle mb-3"
-              style={{ width: "150px", height: "150px", objectFit: "cover" }}
+              style={{width: '150px', height: '150px', objectFit: 'cover'}}
             />
             <h4>{profile.name}</h4>
             <p>{profile.email.split("@")[0]}</p>
@@ -91,14 +91,14 @@ const ProfilePage = () => {
               <span>Rating:</span>
               <span className="text-warning">★★★★☆</span> {profile?.rating}(4.0)
             </div>
-            <Button onClick={() => setShowModal(true)} variant="primary">
+            <Button onClick={() => setShowModal (true)} variant="primary">
               Edit Profile
             </Button>
 
             {/* Modal */}
             <EditProfileModal
               show={showModal}
-              handleClose={() => setShowModal(false)}
+              handleClose={() => setShowModal (false)}
               userProfile={userProfile}
               onSave={handleSave}
             />
