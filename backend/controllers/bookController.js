@@ -7,7 +7,7 @@ const Book = require ('../models/Book');
 // Create a new book
 exports.createBook = async (req, res) => {
   try {
-    console.log ('mic check', req);
+    console.log ('mic check', req.body);
     const book = new Book (req.body);
     await book.save ();
     res.status (201).json (book);

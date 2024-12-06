@@ -1,11 +1,11 @@
 import React, { useState, useContext } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import axios from "axios";
 import { useUser } from "../src/context/user";
 import { BASE_SERVER_URL, API } from "./Constants";
 
 const AddBookModal = () => {
   const [show, setShow] = useState(false);
+  const { current: user } = useUser();
   const [formData, setFormData] = useState({
     bookName: "",
     authorName: "",
@@ -13,11 +13,8 @@ const AddBookModal = () => {
     condition: "",
     image_url: "",
     availability: true,
-    owner_id: "a"
+    owner_id: user?.uid
   });
-
-  const { current: user } = useUser(); // Get the logged-in user's ID
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -41,16 +38,16 @@ const AddBookModal = () => {
             condition: formData.condition,
             image_url: formData.image_url,
             availability: true,
-            owner_id: "a"
+            owner_id: formData.owner_id
+
           }
       const response = await fetch(`${BASE_SERVER_URL}${API}books/`, {
-        method: "POST", // Correct method format
+        method: "POST",
         headers: { 
-          "Content-Type": "application/json" // Correct header key
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(data)
       });
-      // Clear the form and close the modal
       setFormData({
         bookName: "",
         authorName: "",
@@ -58,7 +55,7 @@ const AddBookModal = () => {
         condition: "",
         image_url: "",
         availability: true,
-        owner_id: "a"
+        owner_id: user.uid
       });
       handleClose();
     } catch (error) {
