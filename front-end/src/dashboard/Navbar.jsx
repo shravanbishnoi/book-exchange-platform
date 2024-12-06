@@ -8,7 +8,7 @@ const Navbar = () => {
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-white">
         <div className="container">
-          <Link className="navbar-brand fw-bold" to="/">
+          <Link className="navbar-brand fw-bold" to="/dashboard">
             Codehut
           </Link>
           <button
@@ -28,44 +28,44 @@ const Navbar = () => {
           >
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link className="nav-link1 hover-button" to="/">
-                  Home
+                <Link className="nav-link1 hover-button" to="/dashboard">
+                  Dashboard
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link1 hover-button" to="/about">
-                  About
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="nav-link1 hover-button"
-                  to="/participant/dashboard"
-                >
-                  Contests
+                <Link className="nav-link1 hover-button" to="/lend">
+                  Add a book
                 </Link>
               </li>
               <li className="nav-item">
                 <Link
                   className="nav-link1 hover-button"
-                  to="/administration/dashboard"
+                  to="/"
                 >
-                  Host
+                  Wishlist
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link1 hover-button"
+                  to="/"
+                >
+                  Notifications
                 </Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link1 hover-button" to="/support">
-                  Contact
+                  Support
                 </Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link1 hover-button" to="/login">
-                  Log in
+                  Profile
                 </Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link1 hover-button" to="/signup">
-                  Sign Up
+                  Logout
                 </Link>
               </li>
             </ul>

@@ -38,13 +38,13 @@ const HeroSection = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link1 hover-button" to="/participant/dashboard">
-                Contests
+              <Link className="nav-link1 hover-button" to="/lend">
+                Add a book
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link1 hover-button" to="/administration/dashboard">
-                Host
+                Lend a book
               </Link>
             </li>
             <li className="nav-item">
