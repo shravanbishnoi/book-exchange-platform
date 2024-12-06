@@ -10,5 +10,6 @@ router.get ('/:id', transactionController.getTransaction); // Get a transaction 
 router.put ('/:id', transactionController.updateTransactionStatus); // Update transaction status
 router.delete ('/:id', transactionController.deleteTransaction); // Delete a transaction
 router.get ('/user/:id', transactionController.getTransactionsByUser); // Get all transactions by a user
+router.post ('/borrow', transactionController.borrowBook); // New borrow route
 
 module.exports = router;

@@ -52,7 +52,7 @@ const AddBookModal = () => {
       showSwalAlert({
         icon: "success",
         title: "Book Added successfully",
-        text: "",
+        text: "hoping for the borrower to come soon",
       });
       setFormData({
         bookName: "",
