@@ -115,3 +115,30 @@ exports.removeFromWishlist = async (req, res) => {
     res.status (400).json ({error: err.message});
   }
 };
+
+
+// In your controllers/userController.js
+
+exports.removeFromLendList = async (req, res) => {
+  try {
+    const { userid } = req.params;
+    const { bookId } = req.body;
+
+    // Find the user by ID
+    const user = await User.findById(userid);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Remove the bookId from the lend_books array
+    console.log("id", bookId)
+    user.lend_books = user.lend_books.filter((book) => book._id.toString() !== bookId);
+
+    // Save the updated user
+    await user.save();
+    console.log("done", user.lend_books)
+    res.status(200).json({ message: 'Book removed from lend list', lend_books: user.lend_books });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

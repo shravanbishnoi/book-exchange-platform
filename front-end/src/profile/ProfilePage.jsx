@@ -7,6 +7,7 @@ import EditProfileModal from "./EditProfileModal";
 import { BASE_SERVER_URL, API } from "../Constants";
 import { useUser } from "../context/user";
 import showSwalAlert from "../utilities/AlertComponents";
+import AddBookModal from "../AddBook";
 
 const ProfilePage = () => {
   const { current: user } = useUser();
@@ -69,47 +70,78 @@ const ProfilePage = () => {
   const [userProfile, setUserProfile] = useState(profile);
 
   // Handle Save
-  const handleSave = updatedProfile => {
-    setUserProfile (updatedProfile); // Update the user's profile
+  const handleSave = (updatedProfile) => {
+    setUserProfile(updatedProfile); // Update the user's profile
   };
 
   const deleteFromWishlist = async (bookId) => {
-      try {
-        const response = await fetch(
-          `${BASE_SERVER_URL}${API}users/${user?.uid}/wishlist/`,
-          {
-            method: "delete",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ bookId }),
-          }
-        );
-  
-        if (!response.ok) {
-          throw new Error("Failed to add book to wishlist");
+    try {
+      const response = await fetch(
+        `${BASE_SERVER_URL}${API}users/${user?.uid}/wishlist/`,
+        {
+          method: "delete",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ bookId }),
         }
-  
-        const updatedUser = await response.json();
-        if (updatedUser){
-          setTriggerUpdate(!triggerUpdate)
-          showSwalAlert({
-            icon: "success",
-            title: "Book Deleted from Wishlist",
-            text: "Move to Dashboard to add more",
-          });
-        }
+      );
 
-  
-        console.log("Wishlist updated:", updatedUser.wishlist);
-      } catch (error) {
+      if (!response.ok) {
+        throw new Error("Failed to add book to wishlist");
+      }
+
+      const updatedUser = await response.json();
+      if (updatedUser) {
+        setTriggerUpdate(!triggerUpdate);
         showSwalAlert({
-          icon: "error",
-          title: error.code,
-          text: error.message,
+          icon: "success",
+          title: "Book Deleted from Wishlist",
+          text: "Move to Dashboard to add more",
         });
       }
-  }
+
+      console.log("Wishlist updated:", updatedUser.wishlist);
+    } catch (error) {
+      showSwalAlert({
+        icon: "error",
+        title: error.code,
+        text: error.message,
+      });
+    }
+  };
+
+  const handleDeleteLend = async (bookId) => {
+    try {
+      const response = await fetch(
+        `${BASE_SERVER_URL}${API}users/${user?.uid}/lendlist/`,
+        {
+          method: "delete",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ bookId }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to add book to wishlist");
+      } else {
+        setTriggerUpdate(!triggerUpdate);
+        showSwalAlert({
+          icon: "success",
+          title: "Book Deleted from Lend List",
+          text: "You can add more with just one click.",
+        });
+      }
+    } catch (error) {
+      showSwalAlert({
+        icon: "error",
+        title: error.code,
+        text: error.message,
+      });
+    }
+  };
   return (
     <div>
       <Navbar />
@@ -120,7 +152,7 @@ const ProfilePage = () => {
               src={`https://ui-avatars.com/api/?name=${profile.name}&size=150`}
               alt="Profile"
               className="rounded-circle mb-3"
-              style={{width: '150px', height: '150px', objectFit: 'cover'}}
+              style={{ width: "150px", height: "150px", objectFit: "cover" }}
             />
             <h4>{profile.name}</h4>
             <p>{profile.email.split("@")[0]}</p>
@@ -131,14 +163,14 @@ const ProfilePage = () => {
               <span>Rating:</span>
               <span className="text-warning">★★★★☆</span> {profile?.rating}
             </div>
-            <Button onClick={() => setShowModal (true)} variant="primary">
+            <Button onClick={() => setShowModal(true)} variant="primary">
               Edit Profile
             </Button>
 
             {/* Modal */}
             <EditProfileModal
               show={showModal}
-              handleClose={() => setShowModal (false)}
+              handleClose={() => setShowModal(false)}
               userProfile={userProfile}
               onSave={handleSave}
             />
@@ -150,7 +182,9 @@ const ProfilePage = () => {
           {/* Wishlist Table */}
           <div className="col-lg-12 mb-4">
             <div className="card shadow-sm">
-              <div className="card-header bg-primary text-white text-center">Wishlist</div>
+              <div className="card-header bg-primary text-white text-center">
+                Wishlist
+              </div>
               <div className="card-body p-0">
                 <table className="table table-hover mb-0">
                   <thead className="table-light">
@@ -168,7 +202,10 @@ const ProfilePage = () => {
                         <td>{wish.author}</td>
                         <td>{wish.genre}</td>
                         <td>
-                          <button class="btn btn-danger btn-sm rounded-pill shadow" onClick={() => deleteFromWishlist(wish._id)}>
+                          <button
+                            class="btn btn-danger btn-sm rounded-pill shadow"
+                            onClick={() => deleteFromWishlist(wish._id)}
+                          >
                             <i class="bi bi-trash"></i> Delete
                           </button>
                         </td>
@@ -202,12 +239,18 @@ const ProfilePage = () => {
                         <td>{lend.author}</td>
                         <td>{lend.genre}</td>
                         <td>
-                          <button class="btn btn-secondary btn-sm rounded-pill shadow">
-                            <i class="bi bi-edit"></i> Edit
-                          </button>
-                          <button class="btn btn-danger btn-sm rounded-pill shadow">
-                            <i class="bi bi-trash"></i> Delete
-                          </button>
+                          <AddBookModal bookId={lend._id} />
+                          <Button
+                            className="btn btn-danger shadow text-white"
+                            onClick={() => handleDeleteLend(lend._id)}
+                            style={{
+                              padding: "15px, 20px",
+                              marginLeft: "1px",
+                              backgroundColor: "reddish",
+                            }}
+                          >
+                            Delete
+                          </Button>
                         </td>
                       </tr>
                     ))}
@@ -235,7 +278,7 @@ const ProfilePage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                  {transactions.map((transaction, index) => (
+                    {transactions.map((transaction, index) => (
                       <tr key={index}>
                         <td>{transaction.lender_id?.name}</td>
                         <td>{transaction.borrower_id?.name}</td>

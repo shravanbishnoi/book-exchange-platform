@@ -11,5 +11,5 @@ router.put ('/:userid', userController.updateUser); // Update user details
 router.delete ('/:userid', userController.deleteUser); // Delete a user
 router.put ('/:userid/wishlist', userController.addToWishlist); // Add a book to wishlist
 router.delete ('/:userid/wishlist', userController.removeFromWishlist); // Remove a book from wishlist
-
+router.delete('/:userid/lendlist', userController.removeFromLendList);
 module.exports = router;

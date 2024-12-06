@@ -1,11 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useUser } from "../src/context/user";
 import { BASE_SERVER_URL, API } from "./Constants";
 
-const AddBookModal = () => {
+const AddBookModal = ({ bookId }) => {
   const [show, setShow] = useState(false);
   const { current: user } = useUser();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     bookName: "",
     authorName: "",
@@ -14,6 +16,38 @@ const AddBookModal = () => {
     image_url: "",
     availability: true,
   });
+
+  const url = BASE_SERVER_URL + API + "books/" + bookId;
+  useEffect(() => {
+    const fetchBook = async () => {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error("Failed to fetch books");
+        } else {
+          const data = await response.json();
+          const book = data;
+          console.log(book)
+          setFormData({
+            bookName: book.title || "",
+            authorName: book.author || "",
+            genre: book.genre || "",
+            condition: book.condition || "",
+            image_url: book.image_url || "",
+            // Add any other fields as necessary
+          });
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (bookId) {
+      fetchBook();
+    }
+  }, [bookId]);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -30,22 +64,22 @@ const AddBookModal = () => {
     e.preventDefault();
 
     try {
-        const data = {
-            title: formData.bookName,
-            author: formData.authorName,
-            genre: formData.genre,
-            condition: formData.condition,
-            image_url: formData.image_url,
-            availability: true,
-            owner_id: user?.uid
-          }
-          console.log(data)
+      const data = {
+        title: formData.bookName,
+        author: formData.authorName,
+        genre: formData.genre,
+        condition: formData.condition,
+        image_url: formData.image_url,
+        availability: true,
+        owner_id: user?.uid,
+      };
+      console.log(data);
       const response = await fetch(`${BASE_SERVER_URL}${API}books/`, {
         method: "POST",
-        headers: { 
-          "Content-Type": "application/json"
+        headers: {
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       });
       setFormData({
         bookName: "",
@@ -54,7 +88,7 @@ const AddBookModal = () => {
         condition: "",
         image_url: "",
         availability: true,
-        owner_id: user.uid
+        owner_id: user.uid,
       });
       handleClose();
     } catch (error) {
@@ -68,9 +102,9 @@ const AddBookModal = () => {
 
   return (
     <>
-      {/* Button to Open Modal */}
-      <Button variant="primary" onClick={handleShow}>
-        Add a Book
+      
+      <Button variant="primary" className="text-white" style={{padding: "5px 20px"}}onClick={handleShow}>
+        {bookId ? "Edit" : "Add a Book"}
       </Button>
 
       {/* Modal */}
