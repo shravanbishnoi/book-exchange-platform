@@ -1,9 +1,17 @@
-import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
-import "./Navbar.css";
+import React, {useState} from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Link} from 'react-router-dom';
+import './Navbar.css';
+import AddBookModal from '../AddBook';
 
 const Navbar = () => {
+  // State to control modal visibility
+  const [showModal, setShowModal] = useState (false);
+
+  // Handlers to show and hide modal
+  const handleShowModal = () => setShowModal (true);
+  const handleCloseModal = () => setShowModal (false);
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-white">
@@ -20,7 +28,7 @@ const Navbar = () => {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon" />
           </button>
           <div
             className="collapse navbar-collapse justify-content-end"
@@ -33,23 +41,15 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link1 hover-button" to="/lend">
-                  Add a book
-                </Link>
+                <AddBookModal show={showModal} onClose={handleCloseModal} />
               </li>
               <li className="nav-item">
-                <Link
-                  className="nav-link1 hover-button"
-                  to="/"
-                >
+                <Link className="nav-link1 hover-button" to="/">
                   Wishlist
                 </Link>
               </li>
               <li className="nav-item">
-                <Link
-                  className="nav-link1 hover-button"
-                  to="/"
-                >
+                <Link className="nav-link1 hover-button" to="/">
                   Notifications
                 </Link>
               </li>
@@ -72,6 +72,8 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
+
+      {/* Add Book Modal */}
     </div>
   );
 };

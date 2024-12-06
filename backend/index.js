@@ -2,6 +2,7 @@ require ('dotenv').config ();
 const express = require ('express');
 const mongoose = require ('mongoose');
 const bodyParser = require ('body-parser');
+const cors = require ('cors');
 
 // Import routes
 const userRoutes = require ('./routes/userRoutes');
@@ -9,7 +10,9 @@ const bookRoutes = require ('./routes/bookRoutes');
 const transactionRoutes = require ('./routes/transactionRoutes');
 
 const app = express ();
+app.use (cors ());
 app.use (bodyParser.json ());
+app.use (cors ({origin: 'http://localhost:5173'}));
 
 // Connect to MongoDB Atlas
 mongoose

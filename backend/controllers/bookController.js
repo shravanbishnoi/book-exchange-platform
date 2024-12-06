@@ -1,9 +1,13 @@
 // Updated controllers/bookController.js
 const Book = require ('../models/Book');
+// const multer = require ('multer');
+
+// const upload = multer ();
 
 // Create a new book
 exports.createBook = async (req, res) => {
   try {
+    console.log ('mic check', req);
     const book = new Book (req.body);
     await book.save ();
     res.status (201).json (book);
