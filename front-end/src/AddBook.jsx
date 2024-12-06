@@ -2,6 +2,8 @@ import React, { useState, useContext } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useUser } from "../src/context/user";
 import { BASE_SERVER_URL, API } from "./Constants";
+import showSwalAlert from "../src/utilities/AlertComponents";
+
 
 const AddBookModal = () => {
   const [show, setShow] = useState(false);
@@ -47,6 +49,11 @@ const AddBookModal = () => {
         },
         body: JSON.stringify(data)
       });
+      showSwalAlert({
+        icon: "success",
+        title: "Book Added successfully",
+        text: "",
+      });
       setFormData({
         bookName: "",
         authorName: "",
@@ -58,11 +65,11 @@ const AddBookModal = () => {
       });
       handleClose();
     } catch (error) {
-      console.error("Error adding book:", error);
-      alert(
-        error.response?.data?.message ||
-          "An error occurred while adding the book. Please try again."
-      );
+      showSwalAlert({
+        icon: "error",
+        title: error.code,
+        text: error.message,
+      });
     }
   };
 
