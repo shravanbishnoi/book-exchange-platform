@@ -54,12 +54,12 @@ const Navbar = () => {
                 <AddBookModal show={showModal} onClose={handleCloseModal} />
               </li>
               <li className="nav-item">
-                <Link className="nav-link1 hover-button" to="/">
+                <Link className="nav-link1 hover-button" to="/profile">
                   Wishlist
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link1 hover-button" to="/">
+                <Link className="nav-link1 hover-button" to="/profile">
                   Notifications
                 </Link>
               </li>

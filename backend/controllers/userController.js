@@ -77,11 +77,13 @@ exports.deleteUser = async (req, res) => {
 exports.addToWishlist = async (req, res) => {
   try {
     const user = await User.findById (req.params.userid);
+    console.log("hellow", user, req.body.bookId)
     if (!user) return res.status (404).json ({error: 'User not found'});
     user.wishlist.push (req.body.bookId);
     await user.save ();
     res.json (user);
   } catch (err) {
+    console.log(err.message)
     res.status (400).json ({error: err.message});
   }
 };

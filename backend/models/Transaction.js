@@ -9,10 +9,15 @@ const transactionSchema = new mongoose.Schema (
       required: true,
     },
     lender_id: {type: String, ref: 'User', required: true}, // Updated to use `String` for user-provided `_id`
-    borrower_id: {type: String, ref: 'User', required: true}, // Updated to use `String` for user-provided `_id`
+    borrower_id: {type: String, ref: 'User', required: true}, 
     status: {
       type: String,
       enum: ['pending', 'success', 'fail'],
+      required: true,
+    },
+    type: {
+      type: String,
+      enum: ['borrow', 'lend'], // Restrict to specific values
       required: true,
     },
     message: {type: String, required: false},
@@ -21,11 +26,3 @@ const transactionSchema = new mongoose.Schema (
 );
 
 module.exports = mongoose.model ('Transaction', transactionSchema);
-
-// testing book ids
-// 6752d63b0d6d5766228f56f8
-// 6752d6d30d6d5766228f56ff
-
-// testing transaction ids
-// 6752d7e10d6d5766228f570a
-// 6752d7c80d6d5766228f5708

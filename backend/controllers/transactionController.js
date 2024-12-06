@@ -2,15 +2,31 @@
 const Transaction = require ('../models/Transaction');
 
 // Create a new transaction
+// Create a new transaction
 exports.createTransaction = async (req, res) => {
   try {
-    const transaction = new Transaction (req.body);
-    await transaction.save ();
-    res.status (201).json (transaction);
+    const { book_id, lender_id, borrower_id, status, type, message } = req.body;
+
+    if (!type) {
+      return res.status(400).json({ error: 'Transaction type is required' });
+    }
+
+    const transaction = new Transaction({
+      book_id,
+      lender_id,
+      borrower_id,
+      status,
+      type,
+      message,
+    });
+
+    await transaction.save();
+    res.status(201).json(transaction);
   } catch (err) {
-    res.status (400).json ({error: err.message});
+    res.status(400).json({ error: err.message });
   }
 };
+
 
 // Get a transaction by ID
 exports.getTransaction = async (req, res) => {
@@ -43,17 +59,26 @@ exports.getAllTransactions = async (req, res) => {
 };
 
 // Update transaction status
+// Update transaction status (and optionally type)
 exports.updateTransactionStatus = async (req, res) => {
   try {
-    const transaction = await Transaction.findById (req.params.id);
-    if (!transaction)
-      return res.status (404).json ({error: 'Transaction not found'});
-    transaction.status = req.body.status;
+    const transaction = await Transaction.findById(req.params.id);
+    if (!transaction) {
+      return res.status(404).json({ error: 'Transaction not found' });
+    }
+
+    transaction.status = req.body.status || transaction.status;
     transaction.message = req.body.message || transaction.message;
-    await transaction.save ();
-    res.json (transaction);
+
+    // Update `type` if provided
+    if (req.body.type) {
+      transaction.type = req.body.type;
+    }
+
+    await transaction.save();
+    res.json(transaction);
   } catch (err) {
-    res.status (400).json ({error: err.message});
+    res.status(400).json({ error: err.message });
   }
 };
 

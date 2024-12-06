@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-
+import {BASE_SERVER_URL, API} from "../Constants";
+import {useUser} from "../context/user"
+import showSwalAlert from "../utilities/AlertComponents";
 const BookListingPage = () => {
+  const {current: user} = useUser();
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState("bookName");
 
@@ -13,12 +16,12 @@ const BookListingPage = () => {
       genre: "Fiction",
     },
     {
-        id: 2,
-        image: "https://via.placeholder.com/150",
-        name: "The Great Gatsby",
-        author: "F. Scott Fitzgerald",
-        genre: "Fiction",
-      },
+      id: 2,
+      image: "https://via.placeholder.com/150",
+      name: "The Great Gatsby",
+      author: "F. Scott Fitzgerald",
+      genre: "Fiction",
+    },
     {
       id: 2,
       image: "https://via.placeholder.com/150",
@@ -39,11 +42,53 @@ const BookListingPage = () => {
   const handleFilterChange = (e) => setFilter(e.target.value);
 
   const filteredBooks = books.filter((book) => {
-    if (filter === "bookName") return book.name.toLowerCase().includes(searchQuery.toLowerCase());
-    if (filter === "author") return book.author.toLowerCase().includes(searchQuery.toLowerCase());
-    if (filter === "genre") return book.genre.toLowerCase().includes(searchQuery.toLowerCase());
+    if (filter === "bookName")
+      return book.name.toLowerCase().includes(searchQuery.toLowerCase());
+    if (filter === "author")
+      return book.author.toLowerCase().includes(searchQuery.toLowerCase());
+    if (filter === "genre")
+      return book.genre.toLowerCase().includes(searchQuery.toLowerCase());
     return true;
   });
+
+  console.log(BASE_SERVER_URL + API + "users/" + user?.uid + "/wishlist/")
+  const handleAddWishList = async (bookId) => {
+    try {
+      const response = await fetch(BASE_SERVER_URL + API + "users/" + user?.uid + "/wishlist/", {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ bookId }),
+
+      }).then(response => {
+        if (!response.ok) {
+          // Handle HTTP errors
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json(); // Process response as JSON
+      })
+    
+      .then(res => {
+        showSwalAlert ({icon: 'success', title: "Book added to Wishlist", text: "Now you can see in wishlist."});
+      }).catch((error) => {
+        showSwalAlert ({icon: 'error', title: error.code, text: error.message});
+      })
+  
+      if (!response.ok) {
+        throw new Error('Failed to add book to wishlist');
+      }
+  
+      const updatedUser = await response.json();
+      console.log('Wishlist updated:', updatedUser.wishlist);
+  
+      // Optionally update UI with new wishlist
+      setWishlist(updatedUser.wishlist);
+    } catch (error) {
+      console.error('Error adding book to wishlist:', error.message);
+    }
+  };
+  
 
   return (
     <div className="container mt-5">
@@ -91,7 +136,14 @@ const BookListingPage = () => {
                 </p>
               </div>
               <div className="card-footer text-center">
-                <button className="btn btn-primary w-100">Borrow</button>
+                <div className="d-flex justify-content-between">
+                  <button className="btn btn-primary me-2 flex-fill">
+                    Borrow
+                  </button>
+                  <button className="btn btn-primary flex-fill" onClick={() => handleAddWishList(book.id)}>
+                    Add to Wishlist
+                  </button>
+                </div>
               </div>
             </div>
           </div>
