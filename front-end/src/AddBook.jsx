@@ -13,7 +13,6 @@ const AddBookModal = () => {
     condition: "",
     image_url: "",
     availability: true,
-    owner_id: user?.uid
   });
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -38,8 +37,9 @@ const AddBookModal = () => {
             condition: formData.condition,
             image_url: formData.image_url,
             availability: true,
-            owner_id: formData.owner_id
+            owner_id: user?.uid
           }
+          console.log(data)
       const response = await fetch(`${BASE_SERVER_URL}${API}books/`, {
         method: "POST",
         headers: { 
