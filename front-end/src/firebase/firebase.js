@@ -3,14 +3,15 @@ import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCwDAzH72-4RCTficPgLbm1EWqBBaC2B3g",
-  authDomain: "codehut-ac1d3.firebaseapp.com",
-  projectId: "codehut-ac1d3",
-  storageBucket: "codehut-ac1d3.appspot.com",
-  messagingSenderId: "638356617058",
-  appId: "1:638356617058:web:d88e12ecaa6595f2c25e3b",
-  measurementId: "G-VSGJEHZ366"
+  apiKey: "AIzaSyA2EOX1qBqrBBrtLtyZoZxqjOMSRdgmVvY",
+  authDomain: "book-exchange-8d39d.firebaseapp.com",
+  projectId: "book-exchange-8d39d",
+  storageBucket: "book-exchange-8d39d.firebasestorage.app",
+  messagingSenderId: "328048386879",
+  appId: "1:328048386879:web:e3c64beeb5a5116be0298a",
+  measurementId: "G-TLJ46L8QCV"
 };
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

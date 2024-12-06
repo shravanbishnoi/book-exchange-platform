@@ -27,11 +27,6 @@ export function UserProvider(props) {
         password
       );
       setUser(userCredential.user);
-      showSwalAlert({
-        icon: "success",
-        title: "Login Successful",
-        text: "You have been logged in!",
-      });
       return userCredential;
     } catch (error) {
       showSwalAlert({ icon: "error", title: error.code, text: error.message });
@@ -60,11 +55,11 @@ export function UserProvider(props) {
         email,
         password
       );
-      const signupData = new FormData();
-      signupData.append("user_id", userCredential.user.uid);
-      signupData.append("email", email);
-      signupData.append("name", name);
-      await sendData(baseUrl, signupData);
+      // const signupData = new FormData();
+      // signupData.append("user_id", userCredential.user.uid);
+      // signupData.append("email", email);
+      // signupData.append("name", name);
+      // await sendData(baseUrl, signupData);
       return userCredential;
     } catch (error) {
       console.log("error", error);

@@ -4,9 +4,10 @@ import LandingPage from "./landing/Main";
 import ProtectedRoute from "./utilities/ProtectedRoutes";
 import Dashboard from "./dashboard/Dashboard";
 import BookListingPage from "./dashboard/Books";
-import ProfilePageComponent from "./profile/ProfilePageComponent";
 import ProfilePage from "./profile/ProfilePage";
 import Contact from "./support/Contact";
+import Login from "./Login";
+import Signup from "./Signup";
 
 const ApplicationRouter = () => {
   return (
@@ -16,6 +17,8 @@ const ApplicationRouter = () => {
           <Route path="/" element={<LandingPage />}></Route>
           <Route path="/profile" element={<ProfilePage />}></Route>
           <Route path="/support" element={<Contact />}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/signup" element={<Signup />}></Route>
           <Route
             path="/dashboard"
             element={
