@@ -54,6 +54,7 @@ const ProfilePage = () => {
           name: data.name,
           email: data.email,
           phone: data.phone,
+          location: data.location,
         }));
       } catch (error) {
         console.error("There was an error!", error);
@@ -125,10 +126,10 @@ const ProfilePage = () => {
             <p>{profile.email.split("@")[0]}</p>
             <p>{profile.email}</p>
             <p>{profile.phone}</p>
-            <p>{profile?.location}</p>
+            <p>{profile?.location || "New York, USA"}</p>
             <div className="d-flex justify-content-center align-items-center gap-2">
               <span>Rating:</span>
-              <span className="text-warning">★★★★☆</span> {profile?.rating}(4.0)
+              <span className="text-warning">★★★★☆</span> {profile?.rating}
             </div>
             <Button onClick={() => setShowModal (true)} variant="primary">
               Edit Profile
