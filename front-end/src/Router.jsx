@@ -15,16 +15,16 @@ const ApplicationRouter = () => {
       <Router>
         <Routes>
           <Route path="/" element={<LandingPage />}></Route>
-          <Route path="/profile" element={<ProfilePage />}></Route>
+          <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>}></Route>
           <Route path="/support" element={<Contact />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
           <Route
             path="/dashboard"
             element={
-              // <ProtectedRoute>
+              <ProtectedRoute>
               <Dashboard />
-              // </ProtectedRoute>
+              </ProtectedRoute>
             }
           >
             <Route index element={<BookListingPage />}></Route>

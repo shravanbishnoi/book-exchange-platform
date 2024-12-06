@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useUser } from "./context/user";
 import { useNavigate } from "react-router-dom";
 import showSwalAlert from "./utilities/AlertComponents";
-
+import Navbar from "./landing/Navbar";
 const Login = () => {
   const { login } = useUser();
   const navigate = useNavigate();
@@ -32,6 +32,8 @@ const Login = () => {
   };
 
   return (
+    <div>
+    <Navbar />
     <Container
       className="d-flex justify-content-center align-items-center"
       style={{ minHeight: "100vh" }}
@@ -77,6 +79,7 @@ const Login = () => {
         </Col>
       </Row>
     </Container>
+    </div>
   );
 };
 

@@ -5,7 +5,7 @@ import { useUser } from "./context/user";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import showSwalAlert from "./utilities/AlertComponents";
-
+import Navbar from "./landing/Navbar";
 const Signup = () => {
   const { signup } = useUser(); // Get the login function from the user context
   const navigate = useNavigate()
@@ -37,6 +37,9 @@ const Signup = () => {
   };
 
   return (
+    <div>
+      <Navbar />
+
     <Container
       className="d-flex justify-content-center align-items-center"
       style={{ minHeight: "100vh" }}
@@ -94,6 +97,7 @@ const Signup = () => {
         </Col>
       </Row>
     </Container>
+    </div>
   );
 };
 

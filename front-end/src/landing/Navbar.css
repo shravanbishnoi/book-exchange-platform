@@ -1,0 +1,30 @@
+.navbar-brand {
+    font-size: 1.5rem;
+    color: #000;
+  }
+  
+/* Navbar links */
+.nav-link1 {
+    transition: all 0.3s ease;
+    padding: 5px 20px;
+    border: none;
+    border-radius: 20px;
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .nav-link1:hover {
+    background-color: #007acc; /* Button-like background */
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Button shadow effect */
+  }
+  
+  
+  .btn-outline-secondary {
+    border-radius: 20px;
+  }
+
+  .nav-item {
+    margin-right: 20px;
+}
