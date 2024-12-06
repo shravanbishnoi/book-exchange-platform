@@ -3,15 +3,25 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Link} from 'react-router-dom';
 import './Navbar.css';
 import AddBookModal from '../AddBook';
+import { useUser } from '../context/user';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   // State to control modal visibility
   const [showModal, setShowModal] = useState (false);
+  const { logout } = useUser();
+  const navigate = useNavigate();
 
   // Handlers to show and hide modal
   const handleShowModal = () => setShowModal (true);
   const handleCloseModal = () => setShowModal (false);
 
+  const handleLogout = async () => {
+    const response = await logout();
+    if (response){
+      navigate("/")
+    }
+  }
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-white">
@@ -64,7 +74,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link1 hover-button" to="/signup">
+                <Link className="nav-link1 hover-button" onClick={handleLogout}>
                   Logout
                 </Link>
               </li>
