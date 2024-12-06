@@ -2,6 +2,7 @@
 const express = require ('express');
 const router = express.Router ();
 const bookController = require ('../controllers/bookController');
+// const cors = require ('cors');
 
 // Book routes
 router.post ('/', bookController.createBook); // Create a new book

@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema (
     },
     name: {type: String, required: true},
     email: {type: String, required: true, unique: true},
-    phone: {type: String},
+    phone: {type: String, required: false},
     wishlist: [{type: mongoose.Schema.Types.ObjectId, ref: 'Book'}],
     lend_books: [{type: mongoose.Schema.Types.ObjectId, ref: 'Book'}],
     transactions: [{type: mongoose.Schema.Types.ObjectId, ref: 'Transaction'}],
