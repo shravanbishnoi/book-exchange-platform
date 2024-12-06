@@ -7,7 +7,7 @@ import {
   onAuthStateChanged,
 } from 'firebase/auth';
 import showSwalAlert from '../utilities/AlertComponents';
-import {BASE_SERVER_URL, AUTH_ENDPOINT} from '../Constants';
+import {BASE_SERVER_URL, AUTH_ENDPOINT, API} from '../Constants';
 
 const UserContext = createContext ();
 
@@ -49,6 +49,7 @@ export function UserProvider (props) {
 
   async function signup (email, password, name) {
     const baseUrl = BASE_SERVER_URL + AUTH_ENDPOINT + 'signup/';
+
     try {
       const userCredential = await createUserWithEmailAndPassword (
         auth,
@@ -59,12 +60,17 @@ export function UserProvider (props) {
       signupData.append ('userid', userCredential.user.uid);
       signupData.append ('email', email);
       signupData.append ('name', name);
+      const data = {
+        userid: userCredential.user.uid,
+        email: email,
+        name: name,
+      };
       const response = await fetch (`${BASE_SERVER_URL}${API}users/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify (signupData),
+        body: JSON.stringify (data),
       });
       // await sendData(baseUrl, signupData);
       return userCredential;
