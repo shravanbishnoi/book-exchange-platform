@@ -11,7 +11,7 @@ const AddBookModal = () => {
     authorName: "",
     genre: "",
     condition: "",
-    image_url: "",
+    image_url: "https://via.placeholder.com/150",
     availability: true,
     owner_id: user?.uid
   });
