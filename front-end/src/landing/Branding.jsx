@@ -1,7 +1,7 @@
-import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
-import "./Branding.css";
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Link} from 'react-router-dom';
+import './Branding.css';
 
 const BrandingPage = () => {
   return (
@@ -10,9 +10,8 @@ const BrandingPage = () => {
         {/* Image Section */}
         <div className="col-lg-6 text-center">
           <img
-            // src="https://img.freepik.com/premium-vector/web-developer-wiring-code-program_773186-894.jpg?w=996"
-            alt="Developer at Work"
-            src="https://img.freepik.com/free-vector/programming-concept-illustration_114360-1351.jpg?t=st=1733055535~exp=1733059135~hmac=7a362066a48356726282a05b631fd0edbdb7d4709848b10d28f68e9cde4fba6b&w=740"
+            alt="Book Exchange"
+            src="https://img.freepik.com/free-photo/front-view-hardback-books-library-with-light-box_23-2148827226.jpg?t=st=1733553471~exp=1733557071~hmac=c2b555bf35dcc045fd08c09c4ac5bc1a85f083064df8d1d5c98a4f379d35edfe&w=1380"
             className="img-fluid banner-images"
           />
         </div>
@@ -20,18 +19,19 @@ const BrandingPage = () => {
         {/* Text Section */}
         <div className="col-lg-6 text-center text-lg-start mt-4 mt-lg-0">
           <p className="text-uppercase text-muted small">
-            Elevate Your Coding Journey
+            Explore the World of Books
           </p>
           <h1 className="display-5 fw-bold text-primary">
-            Immerse Yourself in a World of
+            Welcome to the Book Exchange Community
           </h1>
           <p className="lead text-muted">
-            Discover the Ultimate Coding Contest Platform: Where Aspiring
-            Developers Converge to Showcase Their Talents, Push the Boundaries
-            of Innovation.
+            Discover, share, and swap your favorite books with fellow readers. Join a thriving community of book lovers today!
           </p>
-          <Link className="hero-button btn btn-lg rounded-pill mt-3" to="/participant">
-            Participate Now
+          <Link
+            className="hero-button btn btn-lg rounded-pill mt-3"
+            to="/dashboard"
+          >
+            Start Exchanging
           </Link>
         </div>
       </div>

@@ -1,8 +1,8 @@
-import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
-import "./HeroSection.css";
-import Navbar from "./Navbar";
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Link} from 'react-router-dom';
+import './HeroSection.css';
+import Navbar from './Navbar';
 
 const HeroSection = () => {
   return (
@@ -14,26 +14,27 @@ const HeroSection = () => {
           {/* Text Section */}
           <div className="col-lg-6 text-center text-lg-start pt-1 custome-text">
             <p className="text-uppercase text-muted small">
-              Unlock Your Coding Potential
+              Share Stories, Make Connections
             </p>
             <h1 className="display-4 fw-bold text-primary mt-1">
-              Unleash Your Coding Prowess
+              Join the Book Exchange Revolution
             </h1>
-            <p className="lead text-muted" style={{paddingTop: "20px"}}>
-              Discover the Ultimate Coding Contest Platform: Where Innovation
-              Meets Competition
+            <p className="lead text-muted" style={{paddingTop: '20px'}}>
+              Discover new reads, share your favorite books, and meet readers who share your passion.
             </p>
-            <Link className="btn hero-button btn-lg rounded-pill mt-3" to="/administration/dashboard">
-              Join Now
+            <Link
+              className="btn hero-button btn-lg rounded-pill mt-3"
+              to="/dashboard"
+            >
+              Get Started
             </Link>
           </div>
 
           {/* Image Section */}
           <div className="col-lg-6 text-center mt-4 mt-lg-0">
             <img
-              // src="https://via.placeholder.com/500x300"
-              src="https://img.freepik.com/premium-vector/web-developer-working-computer-programming-coding_24911-10259.jpg"
-              alt="Coding Contest"
+              src="https://img.freepik.com/free-photo/excited-teen-girl-showing-tablet-boyfriend_23-2147860637.jpg?t=st=1733553956~exp=1733557556~hmac=92e3f3de60be3a160bcf2456d2cdeef5c207d9aab5a60b13cc5b598b8c130bf7&w=1380"
+              alt="Book Exchange Hero"
               className="banner-images img-fluid"
             />
           </div>
