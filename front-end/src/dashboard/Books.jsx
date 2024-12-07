@@ -13,6 +13,39 @@ const BookListingPage = () => {
 
   const BASE_API_URL = `${BASE_SERVER_URL}${API}books/`;
 
+  const handleBorrowBook = async (book) => {
+    try {
+      const response = await fetch(`${BASE_SERVER_URL}${API}transactions/borrow`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          bookId: book._id,
+          borrowerId: user?.uid,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to borrow the book');
+      }
+  
+      const data = await response.json();
+      showSwalAlert({
+        icon: 'success',
+        title: 'Borrow Request Sent',
+        text: `You have requested to borrow "${book.title}".`,
+      });
+      console.log('Transaction:', data.transaction);
+    } catch (error) {
+      showSwalAlert({
+        icon: 'error',
+        title: 'Error',
+        text: error.message,
+      });
+    }
+  };
+  
   // Fetch books only on component mount
   useEffect(() => {
     const fetchBooks = async () => {
@@ -140,7 +173,10 @@ const BookListingPage = () => {
               </div>
               <div className="card-footer text-center">
                 <div className="d-flex justify-content-between">
-                  <button className="btn btn-primary me-2 flex-fill text-white">
+                <button
+                    className="btn btn-primary me-2 flex-fill text-white"
+                    onClick={() => handleBorrowBook(book)}
+                  >
                     Borrow
                   </button>
                   <button
