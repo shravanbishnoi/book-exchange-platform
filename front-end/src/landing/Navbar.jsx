@@ -32,11 +32,11 @@ const Navbar = () => {
                   Home
                 </Link>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link className="nav-link1 hover-button" to="/about">
                   About
                 </Link>
-              </li>
+              </li> */}
               <li className="nav-item">
                 <Link className="nav-link1 hover-button" to="/dashboard">
                   Add a book
