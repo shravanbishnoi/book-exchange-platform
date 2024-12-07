@@ -1,0 +1,19 @@
+.add-book-button {
+    text-decoration: none;
+}
+.add-book-button:hover {
+        background-color: #007acc; /* Button-like background */
+        color: white;
+        font-weight: 500;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Button shadow effect */
+
+}
+
+.add-book-button {
+    transition: all 0.3s ease;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 20px;
+    color: black;
+    text-decoration: none;
+  }

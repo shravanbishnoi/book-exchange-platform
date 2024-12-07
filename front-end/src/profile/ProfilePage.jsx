@@ -142,6 +142,8 @@ const ProfilePage = () => {
       });
     }
   };
+
+
   return (
     <div>
       <Navbar />
@@ -239,7 +241,7 @@ const ProfilePage = () => {
                         <td>{lend.author}</td>
                         <td>{lend.genre}</td>
                         <td>
-                          <AddBookModal bookId={lend._id} />
+                          <AddBookModal bookId={lend._id} setTriggerUpdate={setTriggerUpdate} triggerUpdate={triggerUpdate}/>
                           <Button
                             className="btn btn-danger shadow text-white"
                             onClick={() => handleDeleteLend(lend._id)}

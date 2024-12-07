@@ -51,7 +51,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <AddBookModal show={showModal} onClose={handleCloseModal} />
+                <AddBookModal />
               </li>
               <li className="nav-item">
                 <Link className="nav-link1 hover-button" to="/profile">

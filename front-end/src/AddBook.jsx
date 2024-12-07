@@ -3,9 +3,10 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { useUser } from "../src/context/user";
 import { BASE_SERVER_URL, API } from "./Constants";
 import showSwalAlert from "../src/utilities/AlertComponents";
+import "./AddBook.css";
+import { Link } from "react-router-dom";
 
-
-const AddBookModal = ({ bookId }) => {
+const AddBookModal = ({ bookId, setTriggerUpdate, triggerUpdate }) => {
   const [show, setShow] = useState(false);
   const { current: user } = useUser();
   const [loading, setLoading] = useState(false);
@@ -29,7 +30,7 @@ const AddBookModal = ({ bookId }) => {
         } else {
           const data = await response.json();
           const book = data;
-          console.log(book)
+          console.log(book);
           setFormData({
             bookName: book.title || "",
             authorName: book.author || "",
@@ -76,28 +77,30 @@ const AddBookModal = ({ bookId }) => {
         owner_id: user?.uid,
       };
       console.log(data);
-      const response = await fetch(`${BASE_SERVER_URL}${API}books/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = (await bookId)
+        ? fetch(url, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
+        : fetch(`${BASE_SERVER_URL}${API}books/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
       showSwalAlert({
         icon: "success",
-        title: "Book Added successfully",
+        title: bookId ? "Book updated successfully" : "Book Added successfully",
         text: "",
       });
-      setFormData({
-        bookName: "",
-        authorName: "",
-        genre: "",
-        condition: "",
-        image_url: "",
-        availability: true,
-        owner_id: user.uid,
-      });
       handleClose();
+      if (bookId) {
+        setTriggerUpdate(!triggerUpdate);
+      }
     } catch (error) {
       showSwalAlert({
         icon: "error",
@@ -109,10 +112,25 @@ const AddBookModal = ({ bookId }) => {
 
   return (
     <>
-      
-      <Button variant="primary" className="text-white" style={{padding: "5px 20px"}}onClick={handleShow}>
+      {bookId ? (
+        <Button
+        variant="primary"
+        className="text-white"
+        style={{ padding: "5px 20px" }}
+        onClick={handleShow}
+      >
         {bookId ? "Edit" : "Add a Book"}
       </Button>
+      ) : (
+        <Link
+        // variant="primary"
+        className="add-book-button"
+        style={{ padding: "5px 20px" }}
+        onClick={handleShow}
+      >
+        {bookId ? "Edit" : "Add a Book"}
+      </Link>
+      )}
 
       {/* Modal */}
       <Modal show={show} onHide={handleClose} centered>
