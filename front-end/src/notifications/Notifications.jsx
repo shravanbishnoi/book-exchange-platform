@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Card, Button, Row, Col, Form } from "react-bootstrap";
 import Navbar from "../dashboard/Navbar";
-import notification from "./notification.jpg"
+import notification from "./notification.jpg";
 import { useUser } from "../context/user";
-import { BASE_SERVER_URL, API } from "../Constants.js"
+import { BASE_SERVER_URL, API } from "../Constants.js";
 
 const NotificationsPage = () => {
   // Handle Confirm Lend
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const {current : user} = useUser();
+  const { current: user } = useUser();
+  const [triggerUpdate, setTriggerUpdate] = useState(false);
   const url = BASE_SERVER_URL + API + "transactions" + "/user/" + user?.uid;
+  const updateUrl = BASE_SERVER_URL + API + "transactions/";
   useEffect(() => {
     // Fetch transactions related to the user
     const fetchTransactions = async () => {
@@ -19,7 +21,7 @@ const NotificationsPage = () => {
         setLoading(true);
 
         const response = await fetch(url);
-        
+
         if (!response.ok) {
           throw new Error("Failed to fetch transactions.");
         }
@@ -34,20 +36,66 @@ const NotificationsPage = () => {
     };
 
     fetchTransactions();
-  }, [user]);
+  }, [triggerUpdate]);
 
   if (loading) return <p>Loading transactions...</p>;
   if (error) return <p>{error}</p>;
 
-  const handleConfirmLend = (id) => {
+  const handleConfirmLend = async (id) => {
     console.log(`Lend request confirmed for transaction ID: ${id}`);
-    // Add your API call or logic here
+    try {
+      const response = await fetch(updateUrl + id + "/", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: "Success" }),
+      });
+      if (response.ok) {
+        showSwalAlert({
+          icon: "success",
+          title: "Book Lended Successfully",
+          text: "Please contact the borrower for futther query.",
+        });
+        handleClose();
+        setTriggerUpdate(!triggerUpdate);
+      }
+    } catch (error) {
+      showSwalAlert({
+        icon: "error",
+        title: error.code,
+        text: error.message,
+      });
+    }
   };
 
   // Handle Deny Lend
-  const handleDenyLend = (id) => {
+  const handleDenyLend = async (id) => {
     console.log(`Lend request denied for transaction ID: ${id}`);
-    // Add your API call or logic here
+    try {
+      const response = await fetch(updateUrl + id + "/  ", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: "Denied" }),
+      });
+      if (response.ok) {
+        showSwalAlert({
+          icon: "success",
+          title: "Request Denied Successfully",
+          text: "Please contact the borrower for futther query.",
+        });
+        handleClose();
+        setTriggerUpdate(!triggerUpdate);
+      }
+    } catch (error) {
+      showSwalAlert({
+        icon: "error",
+        title: error.code,
+        text: error.message,
+      });
+    }
   };
 
   return (

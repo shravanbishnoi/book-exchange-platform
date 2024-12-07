@@ -69,13 +69,13 @@ exports.updateTransactionStatus = async (req, res) => {
       return res.status (404).json ({error: 'Transaction not found'});
     }
 
-    transaction.status = req.body.status || transaction.status;
+    transaction.status = req.body.status   || transaction.status;
     transaction.message = req.body.message || transaction.message;
-
+    console.log("sstat", req.body)
     // Update `type` if provided
-    if (req.body.type) {
-      transaction.type = req.body.type;
-    }
+    // if (req.body.type) {
+    //   transaction.type = req.body.type;
+    // }
 
     await transaction.save ();
     res.json (transaction);
