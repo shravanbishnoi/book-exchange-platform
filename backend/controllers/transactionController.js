@@ -69,9 +69,9 @@ exports.updateTransactionStatus = async (req, res) => {
       return res.status (404).json ({error: 'Transaction not found'});
     }
 
-    transaction.status = req.body.status   || transaction.status;
+    transaction.status = req.body.status || transaction.status;
     transaction.message = req.body.message || transaction.message;
-    console.log("sstat", req.body)
+    console.log ('sstat', req.body);
     // Update `type` if provided
     // if (req.body.type) {
     //   transaction.type = req.body.type;
@@ -117,7 +117,7 @@ exports.getTransactionsByUser = async (req, res) => {
 exports.borrowBook = async (req, res) => {
   try {
     const {bookId, borrowerId} = req.body;
-    console.log (req.body);
+    // console.log (req.body);
 
     // Fetch the book details
     const book = await Book.findById (bookId);
