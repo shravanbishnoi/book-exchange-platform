@@ -1,10 +1,10 @@
-import { Navigate } from 'react-router-dom';
-import { useUser } from '../context/user'
+import {Navigate} from 'react-router-dom';
+import {useUser} from '../context/user';
 import LoadingOverlay from 'react-loading-overlay-ts';
 import PulseLoader from 'react-spinners/PulseLoader';
 
-const ProtectedRoute = ({ children }) => {
-  const { current: user, loading } = useUser();
+const ProtectedRoute = ({children}) => {
+  const {current: user, loading} = useUser ();
 
   if (loading) {
     return (
@@ -23,7 +23,14 @@ const ProtectedRoute = ({ children }) => {
         }
       >
         {/* Optionally, you can include a fallback UI while loading */}
-        <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div
+          style={{
+            height: '100vh',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           Loading content...
         </div>
       </LoadingOverlay>
@@ -33,7 +40,6 @@ const ProtectedRoute = ({ children }) => {
   if (!user) return <Navigate to="/" replace />;
 
   return children;
-  
 };
 
 export default ProtectedRoute;
