@@ -106,7 +106,6 @@ exports.addToWishlist = async (req, res) => {
 exports.removeFromWishlist = async (req, res) => {
   try {
     const user = await User.findById (req.params.userid);
-    console.log()
     if (!user) return res.status (404).json ({error: 'User not found'});
     user.wishlist.pull (req.body.bookId);
     await user.save ();
@@ -131,12 +130,10 @@ exports.removeFromLendList = async (req, res) => {
     }
 
     // Remove the bookId from the lend_books array
-    console.log("id", bookId)
     user.lend_books = user.lend_books.filter((book) => book._id.toString() !== bookId);
 
     // Save the updated user
     await user.save();
-    console.log("done", user.lend_books)
     res.status(200).json({ message: 'Book removed from lend list', lend_books: user.lend_books });
   } catch (err) {
     res.status(500).json({ error: err.message });

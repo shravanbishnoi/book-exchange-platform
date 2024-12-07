@@ -114,22 +114,22 @@ const AddBookModal = ({ bookId, setTriggerUpdate, triggerUpdate }) => {
     <>
       {bookId ? (
         <Button
-        variant="primary"
-        className="text-white"
-        style={{ padding: "5px 20px" }}
-        onClick={handleShow}
-      >
-        {bookId ? "Edit" : "Add a Book"}
-      </Button>
+          variant="primary"
+          className="text-white"
+          style={{ padding: "5px 20px" }}
+          onClick={handleShow}
+        >
+          {bookId ? "Edit" : "Add a Book"}
+        </Button>
       ) : (
         <Link
-        // variant="primary"
-        className="add-book-button"
-        style={{ padding: "5px 20px" }}
-        onClick={handleShow}
-      >
-        {bookId ? "Edit" : "Add a Book"}
-      </Link>
+          // variant="primary"
+          className="add-book-button"
+          style={{ padding: "5px 20px" }}
+          onClick={handleShow}
+        >
+          {bookId ? "Edit" : "Add a Book"}
+        </Link>
       )}
 
       {/* Modal */}
@@ -196,12 +196,24 @@ const AddBookModal = ({ bookId, setTriggerUpdate, triggerUpdate }) => {
               </Form.Select>
             </Form.Group>
 
-            <Form.Group className="mb-3">
+            {/* <Form.Group className="mb-3">
               <Form.Label>Book Cover Image</Form.Label>
               <Form.Control
                 type="file"
                 onChange={handleFileChange}
                 accept="image/*"
+              />
+            </Form.Group> */}
+
+            <Form.Group className="mb-3">
+              <Form.Label>Cover Book Url</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter the iamge url"
+                name="image_url"
+                value={formData.image_url}
+                onChange={handleChange}
+                // required
               />
             </Form.Group>
 

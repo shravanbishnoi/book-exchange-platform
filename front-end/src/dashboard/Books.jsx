@@ -123,13 +123,13 @@ const BookListingPage = () => {
           <div className="col-md-4 mb-4" key={book._id}>
             <div className="card h-100 shadow-sm">
               <img
-                src={book.image_url || "https://via.placeholder.com/150"}
+                src={book.image_url || "https://img.freepik.com/free-vector/blue-isolated-book_1025-275.jpg?t=st=1733547162~exp=1733550762~hmac=5a072b026d1c0bb672f235cb650f87937d24c2fa5f9a71ec498de5ddd51a462a&w=740"}
                 className="card-img-top"
                 alt={book.title}
                 style={{ height: "200px", objectFit: "cover" }}
               />
               <div className="card-body">
-                <h5 className="card-title text-center">{book.title}</h5>
+                <h4 className="card-title text-center">{book.title}</h4>
                 <p className="card-text">
                   <strong>Author:</strong> {book.author}
                   <br />
