@@ -17,6 +17,7 @@ const ProfilePage = () => {
   const [wishlist, setWishlist] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const url = BASE_SERVER_URL + API + "users/" + user?.uid;
+  const transactionUrl = BASE_SERVER_URL + API + "transactions" + "/user/" + user?.uid;
   const [profile, setProfile] = useState({
     name: "John Doe",
     username: "johndoe123",
@@ -47,8 +48,6 @@ const ProfilePage = () => {
         // Update state variables with fetched data
         setWishlist(data.wishlist);
         setLendBooks(data.lend_books);
-        setTransactions(data.transactions);
-
         // Update profile state
         setProfile((prevProfile) => ({
           ...prevProfile, // Retain unchanged properties
@@ -57,6 +56,33 @@ const ProfilePage = () => {
           phone: data.phone,
           location: data.location,
         }));
+      } catch (error) {
+        console.error("There was an error!", error);
+      }
+    };
+
+    if (user?.uid) {
+      fetchData();
+    }
+  }, [user, triggerUpdate]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(transactionUrl, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Data received:", data);
+        setTransactions(data)
       } catch (error) {
         console.error("There was an error!", error);
       }
@@ -285,7 +311,7 @@ const ProfilePage = () => {
                         <td>{transaction.lender_id?.name}</td>
                         <td>{transaction.borrower_id?.name}</td>
                         <td>{transaction.type}</td>
-                        <td>{transaction.createdAt}</td>
+                        <td>{new Date(transaction.createdAt).toLocaleDateString()}</td>
                         <td>{transaction.status}</td>
                       </tr>
                     ))}

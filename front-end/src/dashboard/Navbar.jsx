@@ -59,7 +59,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link1 hover-button" to="/profile">
+                <Link className="nav-link1 hover-button" to="/notifications">
                   Notifications
                 </Link>
               </li>

@@ -8,6 +8,7 @@ import ProfilePage from "./profile/ProfilePage";
 import Contact from "./support/Contact";
 import Login from "./Login";
 import Signup from "./Signup";
+import NotificationsPage from "./notifications/Notifications";
 
 const ApplicationRouter = () => {
   return (
@@ -15,15 +16,30 @@ const ApplicationRouter = () => {
       <Router>
         <Routes>
           <Route path="/" element={<LandingPage />}></Route>
-          <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>}></Route>
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          ></Route>
           <Route path="/support" element={<Contact />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
           <Route
+            path="/notifications"
+            element={
+              <ProtectedRoute>
+                <NotificationsPage/>
+              </ProtectedRoute>
+            }
+          ></Route>
+          <Route
             path="/dashboard"
             element={
               <ProtectedRoute>
-              <Dashboard />
+                <Dashboard />
               </ProtectedRoute>
             }
           >
