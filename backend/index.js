@@ -14,7 +14,8 @@ app.use(bodyParser.json());
 const allowedOrigins = process.env.IS_PRODUCTION
   ? [process.env.PRODUCTION_FRONTEND_ORIGIN]
   : [process.env.DEVELOPMENT_FRONTEND_ORIGIN];
-console.log(allowedOrigins);
+
+
 app.use(cors({allowedOrigins}));
 // Connect to MongoDB Atlas
 mongoose
