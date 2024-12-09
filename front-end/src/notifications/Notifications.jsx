@@ -4,6 +4,8 @@ import Navbar from "../dashboard/Navbar";
 import notification from "./notification.jpg";
 import { useUser } from "../context/user";
 import { BASE_SERVER_URL, API } from "../Constants.js";
+import LoadingOverlay from "react-loading-overlay-ts";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const NotificationsPage = () => {
   // Handle Confirm Lend
@@ -38,10 +40,8 @@ const NotificationsPage = () => {
     fetchTransactions();
   }, [triggerUpdate]);
 
-  if (loading) return <p>Loading transactions...</p>;
-  if (error) return <p>{error}</p>;
-
   const handleConfirmLend = async (id) => {
+    setLoading(true);
     console.log(`Lend request confirmed for transaction ID: ${id}`);
     try {
       const response = await fetch(updateUrl + id + "/", {
@@ -67,6 +67,7 @@ const NotificationsPage = () => {
         text: error.message,
       });
     }
+    setLoading(false);
   };
 
   // Handle Deny Lend
@@ -102,50 +103,65 @@ const NotificationsPage = () => {
     <div>
       <Navbar />
       <div className="container py-4">
-        <Row>
-          {transactions.map((transaction, index) => (
-            <Col md={6} lg={4} key={index} className="mb-4">
-              <Card>
-                <Card.Body>
-                  <Card.Title>Borrow Request</Card.Title>
-                  <Card.Subtitle className="mb-2 text-muted">
-                    Borrower: {transaction.borrower_id.name}
-                  </Card.Subtitle>
-                  <Card.Text>
-                    <strong>Book:</strong> {transaction.book_id.title} <br />
-                    <strong>Request Date:</strong>{" "}
-                    {new Date(transaction.createdAt).toLocaleDateString()}
-                  </Card.Text>
-                  <div className="d-flex justify-content-between">
-                    <Button
-                      variant="success"
-                      onClick={() => handleConfirmLend(transaction._id)}
-                    >
-                      Confirm Lend
-                    </Button>
-                    <Button
-                      variant="danger"
-                      onClick={() => handleDenyLend(transaction._id)}
-                    >
-                      Deny Lend
-                    </Button>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-        {transactions.length === 0 && (
-          <div className="text-center mt-5">
-            <img
-              src={notification}
-              style={{ width: "300px", height: "auto" }}
+        <LoadingOverlay
+          active={loading}
+          text="Please hold tight. While we fetch your records."
+          spinner={
+            <PulseLoader
+              color="black"
+              loading={true}
+              size={15}
+              margin={10}
+              aria-label="Loading Spinner"
+              data-testid="loader"
             />
-            <p className="mt-3 text-muted">
-              You have no pending notifications.
-            </p>
-          </div>
-        )}
+          }
+        >
+          <Row>
+            {transactions.map((transaction, index) => (
+              <Col md={6} lg={4} key={index} className="mb-4">
+                <Card>
+                  <Card.Body>
+                    <Card.Title>Borrow Request</Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">
+                      Borrower: {transaction.borrower_id.name}
+                    </Card.Subtitle>
+                    <Card.Text>
+                      <strong>Book:</strong> {transaction.book_id.title} <br />
+                      <strong>Request Date:</strong>{" "}
+                      {new Date(transaction.createdAt).toLocaleDateString()}
+                    </Card.Text>
+                    <div className="d-flex justify-content-between">
+                      <Button
+                        variant="success"
+                        onClick={() => handleConfirmLend(transaction._id)}
+                      >
+                        Confirm Lend
+                      </Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => handleDenyLend(transaction._id)}
+                      >
+                        Deny Lend
+                      </Button>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+          {transactions.length === 0 && (
+            <div className="text-center mt-5">
+              <img
+                src={notification}
+                style={{ width: "300px", height: "auto" }}
+              />
+              <p className="mt-3 text-muted">
+                You have no pending notifications.
+              </p>
+            </div>
+          )}
+        </LoadingOverlay>
       </div>
     </div>
   );

@@ -75,7 +75,6 @@ export function UserProvider (props) {
       // await sendData(baseUrl, signupData);
       return userCredential;
     } catch (error) {
-      console.log ('error', error);
       showSwalAlert ({icon: 'error', title: error.code, text: error.message});
     }
   }

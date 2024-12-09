@@ -5,6 +5,8 @@ import { BASE_SERVER_URL, API } from "./Constants";
 import showSwalAlert from "../src/utilities/AlertComponents";
 import "./AddBook.css";
 import { Link } from "react-router-dom";
+import LoadingOverlay from "react-loading-overlay-ts";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const AddBookModal = ({ bookId, setTriggerUpdate, triggerUpdate }) => {
   const [show, setShow] = useState(false);
@@ -23,6 +25,7 @@ const AddBookModal = ({ bookId, setTriggerUpdate, triggerUpdate }) => {
   const url = BASE_SERVER_URL + API + "books/" + bookId;
   useEffect(() => {
     const fetchBook = async () => {
+      setLoading(true)
       try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -64,7 +67,7 @@ const AddBookModal = ({ bookId, setTriggerUpdate, triggerUpdate }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true)
     try {
       const data = {
         title: formData.bookName,
@@ -107,6 +110,7 @@ const AddBookModal = ({ bookId, setTriggerUpdate, triggerUpdate }) => {
         text: error.message,
       });
     }
+    setLoading(false)
   };
 
   return (
@@ -131,71 +135,85 @@ const AddBookModal = ({ bookId, setTriggerUpdate, triggerUpdate }) => {
         </Link>
       )}
 
-      {/* Modal */}
-      <Modal show={show} onHide={handleClose} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Add a New Book</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3">
-              <Form.Label>Book Title</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter the book name"
-                name="bookName"
-                value={formData.bookName}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
+      <LoadingOverlay
+        active={loading}
+        text="Please hold tight. While we fetch your records."
+        spinner={
+          <PulseLoader
+            color="black"
+            loading={true}
+            size={15}
+            margin={10}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        }
+      >
+        {/* Modal */}
+        <Modal show={show} onHide={handleClose} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Add a New Book</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-3">
+                <Form.Label>Book Title</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter the book name"
+                  name="bookName"
+                  value={formData.bookName}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Author Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter the author's name"
-                name="authorName"
-                value={formData.authorName}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Author Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter the author's name"
+                  name="authorName"
+                  value={formData.authorName}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Genre</Form.Label>
-              <Form.Select
-                name="genre"
-                value={formData.genre}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Select Genre</option>
-                <option value="Fiction">Fiction</option>
-                <option value="Non-Fiction">Non-Fiction</option>
-                <option value="Mystery">Mystery</option>
-                <option value="Science Fiction">Science Fiction</option>
-                <option value="Fantasy">Fantasy</option>
-                <option value="Biography">Biography</option>
-              </Form.Select>
-            </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Genre</Form.Label>
+                <Form.Select
+                  name="genre"
+                  value={formData.genre}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Genre</option>
+                  <option value="Fiction">Fiction</option>
+                  <option value="Non-Fiction">Non-Fiction</option>
+                  <option value="Mystery">Mystery</option>
+                  <option value="Science Fiction">Science Fiction</option>
+                  <option value="Fantasy">Fantasy</option>
+                  <option value="Biography">Biography</option>
+                </Form.Select>
+              </Form.Group>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Condition</Form.Label>
-              <Form.Select
-                name="condition"
-                value={formData.condition}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Select Condition</option>
-                <option value="New">New</option>
-                <option value="Good">Good</option>
-                <option value="Old">Old</option>
-              </Form.Select>
-            </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Condition</Form.Label>
+                <Form.Select
+                  name="condition"
+                  value={formData.condition}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Condition</option>
+                  <option value="New">New</option>
+                  <option value="Good">Good</option>
+                  <option value="Old">Old</option>
+                </Form.Select>
+              </Form.Group>
 
-            {/* <Form.Group className="mb-3">
+              {/* <Form.Group className="mb-3">
               <Form.Label>Book Cover Image</Form.Label>
               <Form.Control
                 type="file"
@@ -215,12 +233,13 @@ const AddBookModal = ({ bookId, setTriggerUpdate, triggerUpdate }) => {
               />
             </Form.Group>
 
-            <Button variant="success" type="submit">
-              Add Book
-            </Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
+              <Button variant="success" type="submit">
+                Add Book
+              </Button>
+            </Form>
+          </Modal.Body>
+        </Modal>
+      </LoadingOverlay>
     </>
   );
 };

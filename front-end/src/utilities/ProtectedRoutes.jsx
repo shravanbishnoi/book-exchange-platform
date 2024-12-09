@@ -5,7 +5,7 @@ import PulseLoader from 'react-spinners/PulseLoader';
 
 const ProtectedRoute = ({children}) => {
   const {current: user, loading} = useUser ();
-
+  
   if (loading) {
     return (
       <LoadingOverlay
