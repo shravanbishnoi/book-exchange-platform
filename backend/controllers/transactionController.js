@@ -1,4 +1,3 @@
-// Updated controllers/transactionController.js
 const Transaction = require ('../models/Transaction');
 const User = require ('../models/User');
 const Book = require ('../models/Book');
@@ -61,7 +60,6 @@ exports.getAllTransactions = async (req, res) => {
 };
 
 // Update transaction status
-// Update transaction status (and optionally type)
 exports.updateTransactionStatus = async (req, res) => {
   try {
     const transaction = await Transaction.findById (req.params.id);
@@ -117,17 +115,13 @@ exports.getTransactionsByUser = async (req, res) => {
 exports.borrowBook = async (req, res) => {
   try {
     const {bookId, borrowerId} = req.body;
-    // console.log (req.body);
 
-    // Fetch the book details
     const book = await Book.findById (bookId);
     if (!book || !book.availability) {
       return res
         .status (400)
         .json ({error: 'Book is not available for borrowing'});
     }
-
-    // Fetch the lender details
     const lenderId = book.owner_id;
     const lender = await User.findById (lenderId);
     const borrower = await User.findById (borrowerId);
@@ -135,8 +129,6 @@ exports.borrowBook = async (req, res) => {
     if (!lender || !borrower) {
       return res.status (404).json ({error: 'Lender or borrower not found'});
     }
-
-    // Create a new transaction
     const transaction = new Transaction ({
       book_id: bookId,
       lender_id: lenderId,
@@ -146,23 +138,19 @@ exports.borrowBook = async (req, res) => {
       message: `${borrower.name} requested to borrow "${book.title}"`,
     });
     await transaction.save ();
-
-    // Update lender's and borrower's transaction lists
     lender.transactions.push (transaction._id);
     borrower.transactions.push (transaction._id);
     await lender.save ();
     await borrower.save ();
 
-    // Mark the book as unavailable
     book.availability = false;
     await book.save ();
 
-    // Send email notification to the lender
     const transporter = nodemailer.createTransport ({
       service: 'Gmail',
       auth: {
-        user: process.env.EMAIL, // Replace with your email
-        pass: process.env.EMAIL_PASSWORD, // Replace with your email password
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
       },
     });
 
