@@ -1,4 +1,3 @@
-// Updated controllers/userController.js
 const User = require ('../models/User');
 
 // Create a new user
@@ -20,7 +19,6 @@ exports.createUser = async (req, res) => {
   }
 };
 
-// Get a user by `userid`
 exports.getUser = async (req, res) => {
   try {
     const user = await User.findById (req.params.userid).populate ([
@@ -97,7 +95,7 @@ exports.addToWishlist = async (req, res) => {
     await user.save ();
     res.json (user);
   } catch (err) {
-    console.log(err.message)
+    console.log (err.message);
     res.status (400).json ({error: err.message});
   }
 };
@@ -115,27 +113,27 @@ exports.removeFromWishlist = async (req, res) => {
   }
 };
 
-
-// In your controllers/userController.js
-
 exports.removeFromLendList = async (req, res) => {
   try {
-    const { userid } = req.params;
-    const { bookId } = req.body;
+    const {userid} = req.params;
+    const {bookId} = req.body;
 
-    // Find the user by ID
-    const user = await User.findById(userid);
+    const user = await User.findById (userid);
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status (404).json ({error: 'User not found'});
     }
 
-    // Remove the bookId from the lend_books array
-    user.lend_books = user.lend_books.filter((book) => book._id.toString() !== bookId);
-
-    // Save the updated user
-    await user.save();
-    res.status(200).json({ message: 'Book removed from lend list', lend_books: user.lend_books });
+    user.lend_books = user.lend_books.filter (
+      book => book._id.toString () !== bookId
+    );
+    await user.save ();
+    res
+      .status (200)
+      .json ({
+        message: 'Book removed from lend list',
+        lend_books: user.lend_books,
+      });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status (500).json ({error: err.message});
   }
 };

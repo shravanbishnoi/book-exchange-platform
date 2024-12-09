@@ -37,7 +37,6 @@ const AddBookModal = ({ bookId, setTriggerUpdate, triggerUpdate }) => {
             genre: book.genre || "",
             condition: book.condition || "",
             image_url: book.image_url || "",
-            // Add any other fields as necessary
           });
         }
       } catch (err) {
@@ -213,7 +212,6 @@ const AddBookModal = ({ bookId, setTriggerUpdate, triggerUpdate }) => {
                 name="image_url"
                 value={formData.image_url}
                 onChange={handleChange}
-                // required
               />
             </Form.Group>
 

@@ -1,4 +1,3 @@
-// Updated models/Transaction.js
 const mongoose = require ('mongoose');
 
 const transactionSchema = new mongoose.Schema (
@@ -8,7 +7,7 @@ const transactionSchema = new mongoose.Schema (
       ref: 'Book',
       required: true,
     },
-    lender_id: {type: String, ref: 'User', required: true}, // Updated to use `String` for user-provided `_id`
+    lender_id: {type: String, ref: 'User', required: true},
     borrower_id: {type: String, ref: 'User', required: true}, 
     status: {
       type: String,
@@ -17,7 +16,7 @@ const transactionSchema = new mongoose.Schema (
     },
     type: {
       type: String,
-      enum: ['borrow', 'lend'], // Restrict to specific values
+      enum: ['borrow', 'lend'],
       required: true,
     },
     message: {type: String, required: false},

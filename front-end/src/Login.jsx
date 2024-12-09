@@ -8,20 +8,17 @@ import Navbar from "./landing/Navbar";
 const Login = () => {
   const { login } = useUser();
   const navigate = useNavigate();
-  // State to manage form inputs
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Handle form submission
   const handleLoginSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault(); 
 
     try {
-      // Call the login function with email and password
       const loggedIn = await login(email, password);
       if (loggedIn) {
         navigate("/dashboard")
-      } // Optional: Handle post-login UI
+      }
     } catch (error) {
       showSwalAlert({
         icon: "error",

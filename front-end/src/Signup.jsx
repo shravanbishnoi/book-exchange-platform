@@ -7,26 +7,22 @@ import { useNavigate } from "react-router-dom";
 import showSwalAlert from "./utilities/AlertComponents";
 import Navbar from "./landing/Navbar";
 const Signup = () => {
-  const { signup } = useUser(); // Get the login function from the user context
+  const { signup } = useUser();
   const navigate = useNavigate()
 
-  // State to manage form inputs
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Handle form submission
   const handleSignupSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();
 
     try {
-      // Call the login function with email and password
       console.log(email, name, password)
       const signedUp = await signup(email, password, name);
       if (signedUp) {
         navigate("/dashboard")
       }
-      // Optional: Handle post-login UI
     } catch (error) {
       showSwalAlert({
         icon: "error",
