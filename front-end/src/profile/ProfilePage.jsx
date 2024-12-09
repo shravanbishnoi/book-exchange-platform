@@ -8,6 +8,8 @@ import { BASE_SERVER_URL, API } from "../Constants";
 import { useUser } from "../context/user";
 import showSwalAlert from "../utilities/AlertComponents";
 import AddBookModal from "../AddBook";
+import LoadingOverlay from 'react-loading-overlay-ts';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 const ProfilePage = () => {
   const { current: user } = useUser();
@@ -16,6 +18,7 @@ const ProfilePage = () => {
   const [lendBooks, setLendBooks] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(false);
   const url = BASE_SERVER_URL + API + "users/" + user?.uid;
   const transactionUrl = BASE_SERVER_URL + API + "transactions" + "/user/" + user?.uid;
   const [profile, setProfile] = useState({
@@ -30,6 +33,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true)
       try {
         const response = await fetch(url, {
           method: "GET",
@@ -59,6 +63,7 @@ const ProfilePage = () => {
       } catch (error) {
         console.error("There was an error!", error);
       }
+      setLoading(false)
     };
 
     if (user?.uid) {
@@ -68,6 +73,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true)
       try {
         const response = await fetch(transactionUrl, {
           method: "GET",
@@ -86,6 +92,7 @@ const ProfilePage = () => {
       } catch (error) {
         console.error("There was an error!", error);
       }
+      setLoading(false)
     };
 
     if (user?.uid) {
@@ -101,6 +108,7 @@ const ProfilePage = () => {
   };
 
   const deleteFromWishlist = async (bookId) => {
+    setLoading(true)
     try {
       const response = await fetch(
         `${BASE_SERVER_URL}${API}users/${user?.uid}/wishlist/`,
@@ -135,9 +143,11 @@ const ProfilePage = () => {
         text: error.message,
       });
     }
+    setLoading(false)
   };
 
   const handleDeleteLend = async (bookId) => {
+    setLoading(true)
     try {
       const response = await fetch(
         `${BASE_SERVER_URL}${API}users/${user?.uid}/lendlist/`,
@@ -167,6 +177,7 @@ const ProfilePage = () => {
         text: error.message,
       });
     }
+    setLoading(false)
   };
 
 
@@ -174,6 +185,20 @@ const ProfilePage = () => {
     <div>
       <Navbar />
       <div className="container mt-5">
+      <LoadingOverlay
+        active={loading}
+        text="Please hold tight. While we fetch your records."
+        spinner={
+          <PulseLoader
+            color="black"
+            loading={true}
+            size={15}
+            margin={10}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        }
+      >
         <div className="card shadow-sm mb-4">
           <div className="card-body text-center">
             <img
@@ -321,6 +346,7 @@ const ProfilePage = () => {
             </div>
           </div>
         </div>
+        </LoadingOverlay>
       </div>
     </div>
   );

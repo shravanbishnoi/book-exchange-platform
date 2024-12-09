@@ -60,8 +60,6 @@ exports.getAllTransactions = async (req, res) => {
   }
 };
 
-// Update transaction status
-// Update transaction status (and optionally type)
 exports.updateTransactionStatus = async (req, res) => {
   try {
     const transaction = await Transaction.findById (req.params.id);
@@ -71,11 +69,6 @@ exports.updateTransactionStatus = async (req, res) => {
 
     transaction.status = req.body.status || transaction.status;
     transaction.message = req.body.message || transaction.message;
-    console.log ('sstat', req.body);
-    // Update `type` if provided
-    // if (req.body.type) {
-    //   transaction.type = req.body.type;
-    // }
 
     await transaction.save ();
     res.json (transaction);
@@ -117,7 +110,6 @@ exports.getTransactionsByUser = async (req, res) => {
 exports.borrowBook = async (req, res) => {
   try {
     const {bookId, borrowerId} = req.body;
-    // console.log (req.body);
 
     // Fetch the book details
     const book = await Book.findById (bookId);
