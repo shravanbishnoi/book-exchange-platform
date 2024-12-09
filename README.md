@@ -34,90 +34,6 @@ book-exchange-platform/
 
 ---
 
-## **Models**
-
-### **User Model** (`models/User.js`)
-
-```javascript
-const mongoose = require("mongoose");
-
-const userSchema = new mongoose.Schema(
-  {
-    _id: {
-      type: String,
-      required: true,
-    },
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    phone: { type: String, required: false },
-    location: { type: String, required: false },
-    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
-    lend_books: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
-    transactions: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "Transaction" },
-    ],
-  },
-  { timestamps: true }
-);
-
-module.exports = mongoose.model("User", userSchema);
-```
-
-### **Book Model** (`models/Book.js`)
-
-```javascript
-const mongoose = require("mongoose");
-
-const bookSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  author: { type: String, required: true },
-  genre: { type: String, required: true },
-  condition: { type: String, required: true },
-  image_url: { type: String, required: false },
-  owner_id: {
-    type: String,
-    required: true,
-  },
-  availability: { type: Boolean, default: true },
-});
-
-module.exports = mongoose.model("Book", bookSchema);
-```
-
-### **Transaction Model** (`models/Transaction.js`)
-
-```javascript
-const mongoose = require("mongoose");
-
-const transactionSchema = new mongoose.Schema(
-  {
-    book_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Book",
-      required: true,
-    },
-    lender_id: { type: String, ref: "User", required: true }, // Updated to use `String` for user-provided `_id`
-    borrower_id: { type: String, ref: "User", required: true },
-    status: {
-      type: String,
-      enum: ["pending", "success", "fail"],
-      required: true,
-    },
-    type: {
-      type: String,
-      enum: ["borrow", "lend"], // Restrict to specific values
-      required: true,
-    },
-    message: { type: String, required: false },
-  },
-  { timestamps: true }
-);
-
-module.exports = mongoose.model("Transaction", transactionSchema);
-```
-
----
-
 ## **Key Features**
 
 1. **Home Page**:
@@ -152,6 +68,7 @@ module.exports = mongoose.model("Transaction", transactionSchema);
 - Node.js
 - Express.js
 - MongoDB Atlas (Database)
+- Render (for deployment)
 
 ### **Additional Tools**
 
@@ -227,15 +144,14 @@ We welcome contributions! Please fork the repository, create a new branch, and s
 
 ---
 
-## **License**
+## **Team**
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
----
+- **Shravan Bishnoi**: [GitHub Profile](https://github.com/shravanbishnoi/)
+- **Narayan Jat**: [GitHub Profile](https://github.com/narayan-jat)
 
 ## **Contact**
 
 For any questions or feedback, please reach out to:
 
 - **Shravan Bishnoi**
-- Email: [shravan@example.com](mailto:shravan@example.com)
+- Email: [shravanbishnoi008754@gmail.com](mailto:shravanbishnoi008754@gmail.com)
